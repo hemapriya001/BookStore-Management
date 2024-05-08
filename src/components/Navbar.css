@@ -1,0 +1,33 @@
+/* Navbar.css */
+.navbar {
+    position: absolute; /* Absolute positioning */
+    top: 10px; /* Margin from the top */
+    right: 10px; /* Margin from the right */
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    padding: 10px; /* Padding around the links */
+    border-radius: 8px; /* Rounded corners */
+}
+
+.navbar ul {
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Arrange items as columns */
+    margin: 0; /* Reset margin */
+    padding: 0; /* Reset padding */
+    list-style: none; /* Remove list style */
+}
+
+.navbar li {
+    margin-bottom: 10px; /* Space between items */
+}
+
+.navbar a, .navbar button {
+    color: white; /* Text color */
+    text-decoration: none; /* Remove underline from links */
+    border: none; /* No border on button */
+    background: none; /* No background on button */
+    cursor: pointer; /* Pointer cursor on button */
+}
+
+.navbar a:hover, .navbar button:hover {
+    text-decoration: underline; /* Underline on hover */
+}

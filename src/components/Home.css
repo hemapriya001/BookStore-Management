@@ -1,0 +1,20 @@
+.home-container {
+    height: 100vh; /* Full height */
+    background-image: url('/public/Book bg.png'); 
+    background-size: cover; /* Cover the entire background */
+    background-position: center; /* Center the background image */
+    display: flex; /* Use flexbox layout */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    text-align: center; /* Center text */
+    color: white; /* Text color */
+}
+
+.home-content {
+    color: black;
+    padding: 20px ; /* Padding */
+    border-radius: 10px; /* Rounded corners */
+    font-weight: 100;
+    margin-top: 30px;;
+   
+}

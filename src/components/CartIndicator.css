@@ -1,0 +1,39 @@
+/* CartIndicator.css */
+.cart-indicator {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-left: 5px; /* Adjust this value to control spacing between the cart icon and the badge */
+}
+
+.cart-icon {
+    font-size: 20px; /* Adjust size of the icon */
+    position: relative; /* Position the icon relative to the badge */
+}
+
+.cart-badge {
+    background-color: red; /* Badge background color */
+    color: white; /* Badge text color */
+    border-radius: 50%; /* Circular badge */
+    padding: 2px 5px; /* Padding for the badge */
+    font-size: 12px; /* Font size of the badge text */
+    position: absolute;
+    top: -5px; /* Adjust top position for the badge; negative to place it above the icon */
+    left: 50px; /* Adjust right position for the badge; negative to move it closer to the icon */
+    
+}
+/* Navbar.css */
+/* Navbar.css */
+.cart-link-wrapper {
+    display: inline-flex; /* Use inline-flex to keep items in a line */
+    align-items: center; /* Vertically align items to the center */
+}
+
+.cart-link {
+    margin-right: 5px; /* Adjust the margin between the link and the indicator */
+}
+
+.cart-link-wrapper > * {
+    margin: 0; /* Reset any margin that might push the items onto a new line */
+}
+
