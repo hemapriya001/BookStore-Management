@@ -21,7 +21,7 @@ const AdminDashboard = () => {
     const [editBookId, setEditBookId] = useState(null);
 
     // State to determine if the current user is admin
-    const [isAdmin, setIsAdmin] = useState(true); // Set true if user is admin
+    const isAdmin = useSelector((state) => state.auth.isAdmin) // Set true if user is admin
 
     const dispatch = useDispatch();
     const books = useSelector((state) => state.books.books);

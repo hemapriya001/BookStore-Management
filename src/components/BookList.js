@@ -4,7 +4,7 @@ import { setBooks } from '../features/bookSlice';
 import BookCard from './BookCard';
 import './BookList.css';
 
-const BookList = ({ book, onDelete, onEdit,isAdmin }) => {
+const BookList = ({ book, onDelete, onEdit, isAdmin }) => {
     const dispatch = useDispatch();
     const books = useSelector((state) => state.books.books);
     const [loading, setLoading] = useState(true);
@@ -100,7 +100,7 @@ const BookList = ({ book, onDelete, onEdit,isAdmin }) => {
             <h2>Available Books</h2>
             <div className="books-container">
                 {books.map((book) => (
-                    <BookCard key={book.id} book={book} onDelete={isAdmin? onDelete: null} onEdit={isAdmin? onEdit: null} />
+                    <BookCard key={book.id} book={book} onDelete={isAdmin ? onDelete : null} onEdit={isAdmin ? onEdit : null} />
                 ))}
             </div>
         </div>

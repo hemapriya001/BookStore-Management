@@ -1,81 +1,66 @@
 /* General styling */
-body {
-    height: 100vh;
-    overflow-x: hidden;
-    background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Container for the form */
-  #formContainer {
-    width: 400px;
-    padding: 2%;
-    background-color: cornsilk;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center align items within the container */
-    border-radius: 8px;
-  }
-  
-  /* Error message styling */
-  .er {
-    color: red;
-    text-align: left;
-    margin: 5px 0; /* Add vertical margin for better spacing */
-  }
-  
-  /* Input element styling */
-  .i {
-    margin-bottom: 10px; /* Add vertical margin for better spacing */
-    padding: 5px; /* Add padding for better appearance */
-    width: 80%; /* Use percentages to adapt better to container size */
-    height: 5vh; /* Define consistent input height */
-    border-radius: 5px;
-    border: 1px solid gray; /* Add a border to the input */
-    box-sizing: border-box; /* Include padding and border in element's width */
-  }
-  
-  /* Styling for input fields in different sections */
-  #emailInput, #pwInput {
-    margin-top: 10px;
-  }
-  
-  #newEmailInput, #newPwInput, #nameInput, #ageInput {
-    margin-top: 10px;
-  }
-  
-  /* Heading styling */
-  h2 {
-    color: black;
-    text-align: center;
-    margin-bottom: 20px; /* Add margin below the heading */
-  }
-  
-  /* Button styling */
-  button {
-    align-self: center;
-    width: 140px;
-    height: 5vh;
-    border-radius: 5px;
-    border: none;
-    margin: 10px 0; /* Add vertical margin for better spacing */
-    cursor: pointer;
-    color: whitesmoke;
-  }
-  
-  /* Login and sign-up buttons */
-  #toggleButtons button {
-    background-color:#4CAF50;
-    
-   /* Color for the login and sign-up buttons */
-  }
-  
-  /* Button for login and sign-up */
-  
-  
-  #signUpForm button {
-    background-color: #4CAF50;
-  }
-  
+.App {
+  height: 80vh;
+  background: cornsilk;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container for the form */
+#formContainer {
+  background-color: lightblue;
+  display: flex;
+  width: 500px;
+  height: 500px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  justify-items: center;
+  border-radius: 8px;
+}
+
+/* Error message styling */
+.er {
+  color: red;
+  text-align: left;
+  font-size: small;
+}
+
+/* Input element styling */
+.i {
+  padding: 15px; /* Add padding for better appearance */
+  border-radius: 5px;
+  border: 1px solid gray; /* Add a border to the input */
+  box-sizing: border-box;
+  width: 300px;
+  /* Include padding and border in element's width */
+}
+
+/* Heading styling */
+h2 {
+  color: black;
+  text-align: center;
+}
+
+/* Button styling */
+button {
+  border-radius: 5px;
+  padding: 15px;
+  border: none;
+  cursor: pointer;
+  color: whitesmoke;
+}
+
+/* Login and sign-up buttons */
+#toggleButtons button {
+  background-color: #4caf50;
+
+  /* Color for the login and sign-up buttons */
+}
+
+/* Button for login and sign-up */
+
+#signUpForm button {
+  background-color: #4caf50;
+}

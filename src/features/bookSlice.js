@@ -9,8 +9,11 @@ const bookSlice = createSlice({
     setBooks: (state, action) => {
       state.books = action.payload;
     },
+    deleteBook: (state, action) => {
+      state.books = state.books.filter((item) => item.id !== action.payload);
+    }
   },
 });
 
-export const { setBooks } = bookSlice.actions;
+export const { setBooks, deleteBook } = bookSlice.actions;
 export default bookSlice;

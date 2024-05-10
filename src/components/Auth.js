@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import './Auth.css';
+import { logIn, setAdminOn } from '../features/authSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const showSignUpForm = () => {
         setIsLogin(false);
@@ -54,24 +59,28 @@ const Auth = () => {
     const [signUpNameError, setSignUpNameError] = useState('');
     const [signUpAgeError, setSignUpAgeError] = useState('');
 
-   
 
 
     const handleLogin = () => {
         const emailError = validateEmail(loginEmail);
         const passwordError = validatePassword(loginPassword);
-       
 
         setLoginEmailError(emailError);
         setLoginPasswordError(passwordError);
-     
-    
-
         if (emailError === '' && passwordError === '') {
             alert("You have successfully logged in!");
             setLoginEmail('');
             setLoginPassword('');
+            dispatch(logIn(loginEmail))
+            if (loginEmail === 'abc@gmail.com') {
+                dispatch(setAdminOn())
+                navigate("/admin")
+            }
+            else{
+                navigate("/")
+            }
            
+
         } else {
             alert("Please correct the errors before logging in.");
         }
@@ -102,6 +111,8 @@ const Auth = () => {
             setSignUpPassword('');
             setSignUpName('');
             setSignUpAge('');
+            dispatch(logIn);
+            navigate("/")
         } else {
             alert("Please correct the errors before signing up.");
         }
@@ -112,94 +123,92 @@ const Auth = () => {
                 <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
 
                 {isLogin ? (
-                    <div id="loginForm">
+                    <>
                         <input
                             className="i"
                             id="emailInput"
                             type="email"
-                            placeholder="Enter your email"
+                            placeholder="Email"
                             value={loginEmail}
                             onChange={(e) => {
                                 setLoginEmail(e.target.value);
                                 setLoginEmailError(validateEmail(e.target.value));
                             }}
                         />
-                        <p className="er">{loginEmailError}</p>
+                        {loginEmailError && <p className="er">{loginEmailError}</p>}
 
                         <input
                             className="i"
                             id="pwInput"
                             type="password"
-                            placeholder="Enter your password"
+                            placeholder="Password"
                             value={loginPassword}
                             onChange={(e) => {
                                 setLoginPassword(e.target.value);
                                 setLoginPasswordError(validatePassword(e.target.value));
                             }}
                         />
-                        <p className="er">{loginPasswordError}</p>
+                        {loginPasswordError && <p className="er">{loginPasswordError}</p>}
 
-                        
-                       
 
                         <button style={{ backgroundColor: "green" }} onClick={handleLogin}>Log in</button>
-                    </div>
+                    </>
                 ) : (
-                    <div id="signUpForm">
+                    <>
                         <input
                             className="i"
                             id="newEmailInput"
                             type="email"
-                            placeholder="Enter your email"
+                            placeholder="Email"
                             value={signUpEmail}
                             onChange={(e) => {
                                 setSignUpEmail(e.target.value);
                                 setSignUpEmailError(validateEmail(e.target.value));
                             }}
                         />
-                        <p className="er">{signUpEmailError}</p>
+                        {signUpEmailError && <p className="er">{signUpEmailError}</p>}
 
                         <input
                             className="i"
                             id="newPwInput"
                             type="password"
-                            placeholder="Enter your password"
+                            placeholder="Password"
                             value={signUpPassword}
                             onChange={(e) => {
                                 setSignUpPassword(e.target.value);
                                 setSignUpPasswordError(validatePassword(e.target.value));
                             }}
                         />
-                        <p className="er">{signUpPasswordError}</p>
+                        {signUpPasswordError && <p className="er">{signUpPasswordError}</p>}
 
                         <input
                             className="i"
                             id="nameInput"
                             type="text"
-                            placeholder="Enter your name"
+                            placeholder="Name"
                             value={signUpName}
                             onChange={(e) => {
                                 setSignUpName(e.target.value);
                                 setSignUpNameError(e.target.value === '' ? "Name field can't be empty" : '');
                             }}
                         />
-                        <p className="er">{signUpNameError}</p>
+                        {signUpNameError && <p className="er">{signUpNameError}</p>}
 
                         <input
                             className="i"
                             id="ageInput"
                             type="number"
-                            placeholder="Enter your age"
+                            placeholder="Age"
                             value={signUpAge}
                             onChange={(e) => {
                                 setSignUpAge(e.target.value);
                                 setSignUpAgeError(e.target.value === '' ? "Age field can't be empty" : '');
                             }}
                         />
-                        <p className="er">{signUpAgeError}</p>
+                        {signUpAgeError && <p className="er">{signUpAgeError}</p>}
 
                         <button style={{ backgroundColor: "green" }} onClick={handleSignUp}>Sign Up</button>
-                    </div>
+                    </>
                 )}
 
                 <div id="toggleButtons">
