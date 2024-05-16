@@ -3,6 +3,8 @@ import './Auth.css';
 import { logIn, setAdminOn } from '../features/authSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { api_base_url } from '../api';
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -60,38 +62,66 @@ const Auth = () => {
     const [signUpAgeError, setSignUpAgeError] = useState('');
 
 
-
-    const handleLogin = () => {
+    const handleLogin = async () => {
         const emailError = validateEmail(loginEmail);
         const passwordError = validatePassword(loginPassword);
 
         setLoginEmailError(emailError);
         setLoginPasswordError(passwordError);
+        let userId;
+        let userRole;
+
+        const getUserFromDb = async (email, password) => {
+            const data = { email, password };
+            const response = await axios.post(api_base_url + '/api/users/login', data)
+            const response_data = await response.data;
+            console.log(response_data)
+            userRole = response_data['data']['roles'][0]['name']
+            userId = response_data['data']['id']
+        }
+
         if (emailError === '' && passwordError === '') {
-            alert("You have successfully logged in!");
-            setLoginEmail('');
-            setLoginPassword('');
-            dispatch(logIn(loginEmail))
-            if (loginEmail === 'abc@gmail.com') {
+            // alert("You have successfully logged in!");
+            // setLoginEmail('');
+            // setLoginPassword('');
+            await getUserFromDb(loginEmail, loginPassword);
+            dispatch(logIn(userId))
+            // navigate("/")
+            if (userRole === 'ADMIN') {
                 dispatch(setAdminOn())
                 navigate("/admin")
             }
-            else{
+            else {
                 navigate("/")
             }
-           
+
 
         } else {
             alert("Please correct the errors before logging in.");
         }
     };
 
-    const handleSignUp = () => {
+
+
+    const handleSignUp = async () => {
+
         const emailError = validateEmail(signUpEmail);
         const passwordError = validatePassword(signUpPassword);
 
         setSignUpEmailError(emailError);
         setSignUpPasswordError(passwordError);
+
+        let userId;
+        let userRole;
+
+        const createUserInDb = async (email, password, name) => {
+            const data = { email, password, username: name, role: 'USER' };
+            const response = await axios.post(api_base_url + '/api/users/create', data)
+            const response_data = await response.data;
+            console.log(response_data)
+            userRole = response_data['data']['roles'][0]['name']
+            userId = response_data['data']['id']
+        }
 
         if (signUpName === '') {
             setSignUpNameError("Name field can't be empty");
@@ -99,20 +129,14 @@ const Auth = () => {
             setSignUpNameError('');
         }
 
-        if (signUpAge === '') {
-            setSignUpAgeError("Age field can't be empty");
-        } else {
-            setSignUpAgeError('');
-        }
-
-        if (emailError === '' && passwordError === '' && signUpName !== '' && signUpAge !== '') {
+        if (emailError === '' && passwordError === '' && signUpName !== '') {
             alert("You have successfully signed up!");
             setSignUpEmail('');
             setSignUpPassword('');
             setSignUpName('');
             setSignUpAge('');
+            await createUserInDb(signUpEmail, signUpPassword, signUpName);
             dispatch(logIn);
-            navigate("/")
         } else {
             alert("Please correct the errors before signing up.");
         }
@@ -194,7 +218,7 @@ const Auth = () => {
                         />
                         {signUpNameError && <p className="er">{signUpNameError}</p>}
 
-                        <input
+                        {/*<input
                             className="i"
                             id="ageInput"
                             type="number"
@@ -206,6 +230,7 @@ const Auth = () => {
                             }}
                         />
                         {signUpAgeError && <p className="er">{signUpAgeError}</p>}
+                        */}
 
                         <button style={{ backgroundColor: "green" }} onClick={handleSignUp}>Sign Up</button>
                     </>

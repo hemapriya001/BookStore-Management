@@ -1,7 +1,9 @@
 import React from 'react';
 import './Home.css'; // Import CSS for styling
+import { useSelector } from 'react-redux';
 
 const Home = () => {
+    const user_id = useSelector((state) => state.auth.logIn)
     return (
         <div className="home-container">
             <div className="home-content">

@@ -18,8 +18,8 @@ const BookCard = ({ book, onDelete, onEdit }) => {
         <div className="book-card">
             <img src={book.image} alt={book.name} className="book-image" />
             <h3>{book.name}</h3>
-            <p>Author: {book.author}</p>
-            <p>Price: ${book.price}</p>
+            {/* <p>Author: {book.author}</p> */}
+            {/* <p>Price: ${book.price}</p> */}
             <p>Quantity: {book.quantity}</p>
             {isAdmin &&
                 <div className="book-card-actions">

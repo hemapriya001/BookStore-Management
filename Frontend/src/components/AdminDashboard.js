@@ -5,6 +5,9 @@ import { setBooks } from '../features/bookSlice';
 import './AdminDashboard.css';
 import './BookList.css';
 import BookList from './BookList';
+import { api_base_url } from '../api';
+import { useNavigate } from 'react-router-dom';
+
 
 const AdminDashboard = () => {
     // State for book form data
@@ -19,23 +22,41 @@ const AdminDashboard = () => {
     // State to track editing mode
     const [editMode, setEditMode] = useState(false);
     const [editBookId, setEditBookId] = useState(null);
+    const [isUpdated, setIsUpdated] = useState(false);
+    const navigate = useNavigate();
 
     // State to determine if the current user is admin
     const isAdmin = useSelector((state) => state.auth.isAdmin) // Set true if user is admin
 
     const dispatch = useDispatch();
+    const user_id = useSelector((state) => state.auth.user);
     const books = useSelector((state) => state.books.books);
+
 
     // Fetch the books when the component mounts
     useEffect(() => {
         fetchBooks();
     }, []);
 
+
+    const getBooksFromDb = async () => {
+        const response = await axios.get(api_base_url + '/api/books/all', {
+            headers: {
+                'user-id': user_id,
+                'content-type': 'application/json',
+                'accept': 'application/json'
+            }
+        });
+        const response_data = await response.data;
+        return response_data
+
+    }
     // Function to fetch books
     const fetchBooks = async () => {
         try {
-            const response = await axios.get('/api/books');
-            dispatch(setBooks(response.data));
+            const result = await getBooksFromDb();
+            dispatch(setBooks(result));
+            setIsUpdated(true)
         } catch (error) {
             console.error('Failed to fetch books:', error);
         }
@@ -53,14 +74,23 @@ const AdminDashboard = () => {
         try {
             if (editMode) {
                 // Edit existing book
-                await axios.put(`/api/books/${editBookId}`, bookData);
+                await axios.put(`${api_base_url}/api/books/edit/${editBookId}`, bookData, {
+                    headers: {
+                        'user-id': user_id
+                    }
+                });
                 // Exit edit mode and reset the form
                 setEditMode(false);
                 setEditBookId(null);
             } else {
                 // Add a new book
-                await axios.post('/api/books', bookData);
+                await axios.post(api_base_url + '/api/books/create', bookData, {
+                    headers: {
+                        'user-id': user_id
+                    }
+                });
             }
+
             // Fetch updated list of books and update Redux store
             fetchBooks();
             // Reset form fields
@@ -71,6 +101,7 @@ const AdminDashboard = () => {
                 quantity: '',
                 image: '',
             });
+            navigate('/books')
         } catch (error) {
             console.error(editMode ? 'Failed to edit book:' : 'Failed to add book:', error);
         }
@@ -80,9 +111,14 @@ const AdminDashboard = () => {
     const handleDeleteBook = async (id) => {
         try {
             // Send DELETE request to remove the book
-            await axios.delete(`/api/books/${id}`);
+            await axios.delete(`${api_base_url}/api/books/delete/${id}`, {
+                headers: {
+                    'user-id': user_id
+                }
+            });
             // Fetch updated list of books and update Redux store
             fetchBooks();
+            navigate('/admin')
         } catch (error) {
             console.error('Failed to delete book:', error);
         }
@@ -157,6 +193,7 @@ const AdminDashboard = () => {
             <div className="book-list-container">
                 <h3>Existing Books</h3>
                 <BookList
+                    isUpdated={isUpdated}
                     books={books}
                     onDelete={handleDeleteBook}
                     onEdit={handleEditBook}
